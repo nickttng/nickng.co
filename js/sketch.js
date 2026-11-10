@@ -11,7 +11,8 @@
   var DRIFT = 0.0008;              // how far c wanders from 20
   var DRIFT_PERIOD = 24000;        // ms for one slow sway
   var FRAME_MS = 50;               // ~20fps once it's live
-  var BREATHE_MS = 30000;          // breathe this long, then rest (saves battery)
+  var BREATHE_MS = 4000;           // breathe, then rest. Draw-in + breathing stays under
+                                   // 5s so no pause control is needed (WCAG 2.2.2)
   var INK = [21, 25, 28];          // --ink
 
   var fig = document.querySelector('.sketch');

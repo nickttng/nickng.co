@@ -4,7 +4,7 @@
 
 import { createServer } from 'node:http';
 import { readFileSync, existsSync, statSync, watch } from 'node:fs';
-import { join, extname, dirname, normalize } from 'node:path';
+import { join, extname, dirname, normalize, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
@@ -40,7 +40,8 @@ for (const dir of WATCH) {
 createServer((req, res) => {
   const url = decodeURIComponent((req.url ?? '/').split('?')[0]);
   let path = normalize(join(OUT, url));
-  if (!path.startsWith(OUT)) { res.writeHead(403).end(); return; }
+  // Only files inside _site/ (the separator stops look-alikes such as _site-old/).
+  if (path !== OUT && !path.startsWith(OUT + sep)) { res.writeHead(403).end(); return; }
   if (existsSync(path) && statSync(path).isDirectory()) {
     if (!url.endsWith('/')) { res.writeHead(301, { Location: url + '/' }).end(); return; }
     path = join(path, 'index.html');
@@ -48,4 +49,4 @@ createServer((req, res) => {
   if (!existsSync(path)) { res.writeHead(404, { 'Content-Type': 'text/plain' }).end('Not found'); return; }
   res.writeHead(200, { 'Content-Type': TYPES[extname(path)] ?? 'application/octet-stream', 'Cache-Control': 'no-store' });
   res.end(readFileSync(path));
-}).listen(PORT, () => console.log(`Serving _site/ at http://localhost:${PORT}  (Ctrl+C to stop)\n`));
+}).listen(PORT, '127.0.0.1', () => console.log(`Serving _site/ at http://localhost:${PORT}  (Ctrl+C to stop)\n`));
