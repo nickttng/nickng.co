@@ -1,34 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Nick Ng Dot Co</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"/>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="canonical" href="https://nickng.co/">
+    <title>Nick Ng</title>
+    <meta name="description" content="Nick is a public interest technologist interested by sociotechnical challenges. He is often distracted by side quests.">
+    <link rel="preload" href="/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/ibm-plex-mono-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="/js/mark.js" defer></script>
+    <script src="/js/sketch.js" defer></script>
   </head>
-  <body class="bg-dark-gray">
-    <div class="mw9 center">
-      <div class="mh6-ns mv4-ns ma3-m ma2">
-        <!--nav-->
-        <nav class="dt w-100 border-box">
-          <img src="img/icon-nn.svg" class="dib w2 h2" alt="Nick Ng - Identity Logo">
-        </nav>
-        <!--intro----->
-        <div class="cf mt5">
-          <div class="fl w-100 w-50-ns pr4-ns pr2-m">
-            <img src="img/ni-hao.png" alt="A polaroid image of a Chinese male opening a box of sandwich">
-            <figcaption class="white mw5">Displaying the goodness of a half-eaten Manny’s Deli takeout</figcaption>
-          </div>
-          <div class="fl w-100 w-50-ns pl3-m">
-            <div class="white lh-copy">
-              <h1 class="f3">Nick is a public interest technologist interested by sociotechnical challenges. He is often distracted by side quests.</h1>
-              <p class="f4">At Login.gov, I dual-hat as Head of Design (Acting) and lead UX for Federation Protocols & Integration Experience. Previously, a product design practice lead at 18F. Thinking about a more accessible, beautiful future for digital public infrastructure is what I do now.</p>
-              <p class="f4">When washing dishes, I think about accessibility in biometrics, risks and care in Security:UX Threat Modeling, and Yasujirō Ozu's film shots.</p>
-              <p class="f4">Near home, I practice Judo, read protocols for fictional systems at pubs, and co-organize a community pantry.</p>
-            </div>
-          </div>
+  <body>
+    <div class="page">
+      <nav class="nav" aria-label="Site">
+        <div class="crumb">
+          <a class="home-mark" href="/" aria-current="page"><span class="mark" aria-hidden="true"></span><span class="domain">nickng.co</span></a>
         </div>
-      </div>
+        <ul>
+          <li><a href="/exist">Things</a></li>
+          <li><a href="/rrelations">Relations</a></li>
+        </ul>
+      </nav>
+
+      <main>
+        <div class="hero">
+          <h1>Nick is a public interest technologist interested by sociotechnical challenges. He is often distracted by side quests.</h1>
+          <figure class="sketch" aria-hidden="true">
+            <canvas></canvas>
+          </figure>
+        </div>
+
+        <div class="bio-grid">
+        <section class="bio" aria-labelledby="online-duties">
+          <h2 id="online-duties">Online duties</h2>
+          <p>At Login.gov, I dual-hat as Head of Design (Acting) and lead UX for Federation Protocols &amp; Integration Experience. Previously, a product design practice lead at 18F. Thinking about a more accessible, beautiful future for digital public infrastructure is what I do now.</p>
+          <p>Recently, I completed a cohort on HCI-AI at the University of Cambridge. Previously, I co-organized Accessibility Chicago (A11yChi).</p>
+        </section>
+
+        <section class="bio" aria-labelledby="offline-pleasures">
+          <h2 id="offline-pleasures">Offline pleasures</h2>
+          <p>When washing dishes, I think about accessibility in biometrics, risks and care in Security:UX Threat Modeling, and Yasujirō Ozu’s film shots.</p>
+          <p>Near home, I practice Judo, read protocols for fictional systems at pubs, and co-organize a community pantry.</p>
+        </section>
+        </div>
+
+        <h2>Notes</h2>
+        <ul class="rows">
+          <li>
+            <time class="row-meta" datetime="2026-09-28">2026.09.28</time>
+            <span class="row-meta">novel</span>
+            <a href="/exist/the-trumpet-major">The Trumpet-Major</a>
+          </li>
+          <li>
+            <time class="row-meta" datetime="2026-02-17">2026.02.17</time>
+            <span class="row-meta">novel</span>
+            <a href="/exist/under-the-greenwood-tree">Under the Greenwood Tree</a>
+          </li>
+          <li>
+            <time class="row-meta" datetime="2026-01-17">2026.01.17</time>
+            <span class="row-meta">reading plan</span>
+            <a href="/exist/wessex-as-a-world">Wessex as a World</a>
+          </li>
+          <li>
+            <time class="row-meta" datetime="2026-01-08">2026.01.08</time>
+            <span class="row-meta">epic</span>
+            <a href="/exist/the-iliad">The Iliad</a>
+          </li>
+          <li>
+            <time class="row-meta" datetime="2026-01-06">2026.01.06</time>
+            <span class="row-meta">pattern</span>
+            <a href="/exist/wear-is-usage-data">Wear is the most honest usage data</a>
+          </li>
+          <li>
+            <time class="row-meta" datetime="2024-07-02">2024.07.02</time>
+            <span class="row-meta">field notes</span>
+            <a href="/exist/twin-falls-idaho">Twin Falls, Idaho</a>
+          </li>
+          <li>
+            <time class="row-meta" datetime="2024-04-09">2024.04.09</time>
+            <span class="row-meta">field notes</span>
+            <a href="/exist/london-oxford-shilton">London &amp; Oxford &amp; Shilton</a>
+          </li>
+          <li>
+            <time class="row-meta" datetime="2023-08-21">2023.08.21</time>
+            <span class="row-meta">field notes</span>
+            <a href="/exist/edinburgh-dunkeld">Edinburgh &amp; Dunkeld</a>
+          </li>
+          <li>
+            <time class="row-meta" datetime="2021-02-13">2021.02.13</time>
+            <span class="row-meta">pattern</span>
+            <a href="/exist/things-fall-apart">Things fall apart at the rate we stop noticing</a>
+          </li>
+          <li>
+            <time class="row-meta" datetime="2021-02-02">2021.02.02</time>
+            <span class="row-meta">pattern</span>
+            <a href="/exist/passive-design-active-users">Passive design needs active users</a>
+          </li>
+        </ul>
+      </main>
+
+      <footer class="foot"><a href="/colophon">Colophon</a></footer>
     </div>
   </body>
 </html>

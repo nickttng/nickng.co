@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The verbs that connect things on nickng.co, and what each side owes the other.">
+    <link rel="canonical" href="https://nickng.co/rrelations/">
+    <title>Relations · Nick Ng</title>
+    <link rel="preload" href="/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/ibm-plex-mono-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="/js/mark.js" defer></script>
+  </head>
+  <body>
+    <div class="page">
+      <nav class="nav" aria-label="Site">
+        <div class="crumb">
+          <a class="home-mark" href="/"><span class="mark" aria-hidden="true"></span><span class="domain">nickng.co</span></a>
+          <span class="seg" aria-current="page">/rrelations</span>
+        </div>
+        <ul>
+          <li><a href="/exist">Things</a></li>
+          <li><a href="/rrelations" aria-current="page">Relations</a></li>
+        </ul>
+      </nav>
+
+      <main>
+        <h1>Relations</h1>
+        <p class="lede">Every connection on this site uses one of these verbs. Each verb says what the two sides owe each other.</p>
+
+        <h2>Verbs</h2>
+        <table class="verbs">
+          <thead>
+            <tr><th scope="col">Verb</th><th scope="col">Inverse</th><th scope="col">Means</th><th scope="col">Owes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="verb">part of</td><td class="verb" data-label="Inverse:">has part</td><td>X is a component of Y</td><td class="owes" data-label="Owes:">part: fit · whole: context</td></tr>
+            <tr><td class="verb">serves in</td><td class="verb" data-label="Inverse:">is served by</td><td>X holds a role in Y</td><td class="owes" data-label="Owes:">holder: effort · Y: clear remit</td></tr>
+            <tr><td class="verb">governs</td><td class="verb" data-label="Inverse:">is governed by</td><td>X sets rules Y follows</td><td class="owes" data-label="Owes:">X: clear scope · Y: use and feedback</td></tr>
+            <tr><td class="verb">tends</td><td class="verb" data-label="Inverse:">is tended by</td><td>X maintains Y without authority</td><td class="owes" data-label="Owes:">X: care · Y: legibility</td></tr>
+            <tr><td class="verb">depends on</td><td class="verb" data-label="Inverse:">is depended on by</td><td>X can’t operate without Y</td><td class="owes" data-label="Owes:">X: no excess reliance · Y: notice of change</td></tr>
+            <tr><td class="verb">informs</td><td class="verb" data-label="Inverse:">is informed by</td><td>X changes what Y knows</td><td class="owes" data-label="Owes:">X: accuracy · Y: attribution</td></tr>
+            <tr><td class="verb">derives from</td><td class="verb" data-label="Inverse:">gives rise to</td><td>X began as a version of Y</td><td class="owes" data-label="Owes:">X: credit</td></tr>
+            <tr><td class="verb">succeeds</td><td class="verb" data-label="Inverse:">is succeeded by</td><td>X replaces Y</td><td class="owes" data-label="Owes:">X: migration path · Y: clean end</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Between notes</h2>
+        <p class="mono verb-list">argues for · argues against · questions · revises · supersedes</p>
+
+        <h2>Connections</h2>
+        <!-- One row per edge: from · verb · to. Inverses are derived, never written here. -->
+        <ul class="rows edges">
+          <li>
+            <a href="/exist/wear-is-usage-data">Wear is the most honest usage data</a>
+            <span class="verb row-meta">argues for</span>
+            <a href="/exist/things-fall-apart">Things fall apart at the rate we stop noticing</a>
+          </li>
+          <li>
+            <a href="/exist/passive-design-active-users">Passive design needs active users</a>
+            <span class="verb row-meta">argues for</span>
+            <a href="/exist/things-fall-apart">Things fall apart at the rate we stop noticing</a>
+          </li>
+          <li>
+            <a href="/exist/the-trumpet-major">The Trumpet-Major</a>
+            <span class="verb row-meta">part of</span>
+            <a href="/exist/wessex-as-a-world">Wessex as a World</a>
+          </li>
+          <li>
+            <a href="/exist/under-the-greenwood-tree">Under the Greenwood Tree</a>
+            <span class="verb row-meta">part of</span>
+            <a href="/exist/wessex-as-a-world">Wessex as a World</a>
+          </li>
+          <li>
+            <a href="/exist/the-iliad">The Iliad</a>
+            <span class="verb row-meta">informs</span>
+            <a href="/exist/the-trumpet-major">The Trumpet-Major</a>
+          </li>
+          <li>
+            <a href="/exist/under-the-greenwood-tree">Under the Greenwood Tree</a>
+            <span class="verb row-meta">informs</span>
+            <a href="/exist/the-trumpet-major">The Trumpet-Major</a>
+          </li>
+          <li>
+            <a href="/exist/under-the-greenwood-tree">Under the Greenwood Tree</a>
+            <span class="verb row-meta">informs</span>
+            <a href="/exist/wear-is-usage-data">Wear is the most honest usage data</a>
+          </li>
+        </ul>
+      </main>
+
+      <footer class="foot"><a href="/colophon">Colophon</a></footer>
+    </div>
+  </body>
+</html>
