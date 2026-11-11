@@ -46,6 +46,7 @@
   --rule: #D5D9D6;
   --underline: #9AA3A0;
   --accent: #1D5C7A;
+  --stage: #2A8A63;     /* green between the NN mark's cyan and yellow, darkened to 3.9:1 */
 
   --sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
   --mono: "IBM Plex Mono", Menlo, Consolas, monospace;
@@ -214,13 +215,17 @@ h2 {
 p { margin: 0 0 1rem; max-width: 38rem; }
 
 /* home hero: headline + abstract-art-30 sketch (js/sketch.js) */
-.sketch { display: none; margin: 0; }
+/* below 960px the sketch sits above the headline; from 960px, beside it */
+.hero { display: flex; flex-direction: column; }
+.sketch { order: -1; margin: 2.25rem 0 0; width: min(100%, 22rem); }
+.sketch canvas { display: block; width: 100%; aspect-ratio: 1 / 1; }
 
-/* space around the hero is 75% of the page default */
-.hero h1 { margin-top: 2.25rem; }                          /* default 3rem */
+/* space around the hero is tighter than the page default */
+.hero h1 { margin-top: 1.5rem; }                           /* below the sketch */
 .hero + .bio-grid > .bio:first-child h2 { margin-top: 2.625rem; }   /* default 3.5rem */
 @media (min-width: 640px) {
-  .hero h1 { margin-top: 3.375rem; }                       /* default 4.5rem */
+  .sketch { margin-top: 3.375rem; width: min(100%, 26rem); }
+  .hero h1 { margin-top: 2.25rem; }
 }
 
 @media (min-width: 960px) {
@@ -236,8 +241,7 @@ p { margin: 0 0 1rem; max-width: 38rem; }
   }
   .hero h1 { margin: 0; }
   .hero + .bio-grid h2 { margin-top: 2.625rem; }           /* both columns' labels */
-  .sketch { display: block; }
-  .sketch canvas { display: block; width: 100%; aspect-ratio: 1 / 1; }
+  .sketch { order: 0; margin: 0; width: auto; }
 }
 
 /* home bio sections */
@@ -285,6 +289,22 @@ a:focus-visible, button:focus-visible {
 }
 
 .row-meta { font-size: 0.8125rem; color: var(--label); }
+
+/* stage mark before a note title: outline, half, solid */
+.stage {
+  display: inline-block;
+  margin-right: 0.5rem;
+  vertical-align: 0.05em;
+  color: var(--stage);
+}
+
+/* phones: rows stack, so the mark hangs in its own column and the date,
+   type and title still share one left edge */
+@media (max-width: 639.98px) {
+  .rows > .note-row { padding-left: 1.125rem; }
+  .note-row .row-title { position: relative; }
+  .note-row .stage { position: absolute; left: -1.125rem; top: 0.45em; margin: 0; }
+}
 
 /* filters */
 .filters {
@@ -405,25 +425,23 @@ a:focus-visible, button:focus-visible {
 .prose figcaption { margin-top: 0.5rem; font-size: 0.8125rem; line-height: 1.5; color: var(--muted); }
 .prose hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
 
-/* Traces: justified rows. Every photo keeps its own shape (no cropping);
+/* Traces: one photo per row on phones, so each is seen at full width.
+   From 640px, justified rows: every photo keeps its own shape (no cropping);
    each grows in proportion to its width-to-height ratio, so photos in a
    row share one height and the row fills the width. Order is kept. */
-.prose .gallery {
-  --row: 6.5rem;                     /* target row height: ~2 photos a row on phones */
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 1rem 0 2rem;
-}
-@media (min-width: 640px) { .prose .gallery { --row: 10rem; } }
-@media (min-width: 1100px) { .prose .gallery { --row: 12rem; } }   /* ~3 a row */
+.prose .gallery { display: grid; gap: 8px; margin: 1rem 0 2rem; }
+.prose .gallery img { width: 100%; height: auto; }
 
-.prose .gallery img { min-width: 0; height: auto; }
-.prose .gallery .r169 { flex: 1.778 1 calc(var(--row) * 1.778); aspect-ratio: 16 / 9; }
-.prose .gallery .r43  { flex: 1.333 1 calc(var(--row) * 1.333); aspect-ratio: 4 / 3; }
-.prose .gallery .r34  { flex: 0.75 1 calc(var(--row) * 0.75); aspect-ratio: 3 / 4; }
-/* the last row keeps its natural size instead of stretching to fill */
-.prose .gallery::after { content: ""; flex: 1000 1 0; }
+@media (min-width: 640px) {
+  .prose .gallery { --row: 10rem; display: flex; flex-wrap: wrap; }   /* target row height */
+  .prose .gallery img { width: auto; min-width: 0; }
+  .prose .gallery .r169 { flex: 1.778 1 calc(var(--row) * 1.778); aspect-ratio: 16 / 9; }
+  .prose .gallery .r43  { flex: 1.333 1 calc(var(--row) * 1.333); aspect-ratio: 4 / 3; }
+  .prose .gallery .r34  { flex: 0.75 1 calc(var(--row) * 0.75); aspect-ratio: 3 / 4; }
+  /* the last row keeps its natural size instead of stretching to fill */
+  .prose .gallery::after { content: ""; flex: 1000 1 0; }
+}
+@media (min-width: 1100px) { .prose .gallery { --row: 12rem; } }   /* ~3 a row */
 
 .prose .table-scroll { overflow-x: auto; margin: 1.5rem 0; }
 .prose table { border-collapse: collapse; font-size: 0.9375rem; min-width: 32rem; }

@@ -11,15 +11,15 @@
   var DRIFT = 0.0008;              // how far c wanders from 20
   var DRIFT_PERIOD = 24000;        // ms for one slow sway
   var FRAME_MS = 50;               // ~20fps once it's live
-  var BREATHE_MS = 4000;           // breathe, then rest. Draw-in + breathing stays under
-                                   // 5s so no pause control is needed (WCAG 2.2.2)
+  var BREATHE_MS = 4000;           // breathe, then rest
+  var MOTION_MS = 4800;            // hard cap on each stretch of motion, draw-in included,
+                                   // so no pause control is needed (WCAG 2.2.2)
   var INK = [21, 25, 28];          // --ink
 
   var fig = document.querySelector('.sketch');
   var canvas = fig && fig.querySelector('canvas');
   if (!canvas || !canvas.getContext) return;
 
-  var wide = window.matchMedia('(min-width: 960px)');
   var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var visible = true;
   var run = 0;
@@ -47,7 +47,6 @@
   }
 
   function start() {
-    if (!wide.matches) return;
     var id = ++run;
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
     var size = Math.round(canvas.clientWidth * dpr);
@@ -106,10 +105,18 @@
 
     if (still) { plot(DRAW_IN, C); paint(false); return; }
 
-    var t0 = 0, last = 0, breathed = 0;
+    var t0 = 0, last = 0, breathed = 0, began = 0;
+    function go() { began = 0; requestAnimationFrame(frame); }   // a new stretch of motion
     function frame(now) {
       if (id !== run) return;                              // replaced by a newer run
-      if (!visible) { resume = function () { requestAnimationFrame(frame); }; return; }
+      if (!visible) { resume = go; return; }
+      if (!began) began = now;
+      if (now - began >= MOTION_MS) {                      // time's up: finish, then rest
+        if (drawn < DRAW_IN) { plot(DRAW_IN - drawn, C); drawn = DRAW_IN; paint(false); }
+        breathed = 0; last = 0;
+        wake = function () { if (id === run) go(); };
+        return;
+      }
       if (drawn < DRAW_IN) {                               // draw in
         plot(DRAW_PER_FRAME, C);
         drawn += DRAW_PER_FRAME;
@@ -119,7 +126,7 @@
         if (last) breathed += Math.min(now - last, 200);
         if (breathed >= BREATHE_MS) {                      // rest; wake when seen again
           breathed = 0; last = 0;
-          wake = function () { if (id === run) requestAnimationFrame(frame); };
+          wake = function () { if (id === run) go(); };
           return;
         }
         last = now;
@@ -128,17 +135,17 @@
       }
       requestAnimationFrame(frame);
     }
-    requestAnimationFrame(frame);
+    go();
   }
 
   start();
-  wide.addEventListener('change', start);
+  // redraw when the sketch changes size (including crossing a breakpoint)
   var t;
   window.addEventListener('resize', function () {
     clearTimeout(t);
     t = setTimeout(function () {
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      if (wide.matches && Math.round(canvas.clientWidth * dpr) !== canvas.width) start();
+      if (Math.round(canvas.clientWidth * dpr) !== canvas.width) start();
     }, 250);
   });
 })();

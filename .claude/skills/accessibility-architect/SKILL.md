@@ -57,7 +57,7 @@ alt text) without a yes: propose wording instead.
    animation, including the sketch and the logo flicker in `js/mark.js`.
    Nothing flashes more than three times a second over a large area
    (2.3.1). Motion that starts automatically and lasts over 5 seconds needs a way to
-   stop it (2.2.2). The sketch breathes for 30 seconds, then rests; keep it under
+   stop it (2.2.2). The sketch draws in and breathes for at most 4.8 seconds, then rests; keep it under
    that limit or give it a control.
 10. **Content.** Plain language, expanded abbreviations on first use where it helps,
     link text that isn't "here", dates readable by assistive tech (`<time datetime>`).

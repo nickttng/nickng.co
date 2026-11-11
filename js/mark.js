@@ -1,5 +1,5 @@
 // Home mark: inline the NN logo so each pixel can change colour on its own.
-// On hover or focus, random pixels flicker through the night-street palette.
+// On hover or focus, random pixels flicker through the palette.
 // Without JS, the CSS mask version stays (soft black, gradient on hover).
 (function () {
   var PALETTE = ['#7C7FD6', '#FF7AB0', '#F2A33A', '#E8C34A', '#5CC8D8', '#F08497', '#F26A4B'];

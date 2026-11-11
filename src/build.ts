@@ -11,7 +11,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadContent, type Note } from './content.ts';
 import { renderMarkdown, type RenderEnv } from './markdown.ts';
-import { homePage, thingsPage, notePage, relationsPage, plainPage, redirectPage } from './templates.ts';
+import { homePage, thingsPage, notePage, relationsPage, plainPage, redirectPage, COLOPHON_PATH } from './templates.ts';
 import { findVerb } from './vocabulary.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -65,8 +65,8 @@ export function build({ write = true } = {}): { pages: number; errors: string[] 
 
   const colophon = content.pages.colophon;
   if (colophon) {
-    pages.set('colophon/index.html', plainPage({
-      path: 'colophon',
+    pages.set(`${COLOPHON_PATH}/index.html`, plainPage({
+      path: COLOPHON_PATH,
       title: String(colophon.front.title ?? 'Colophon'),
       description: colophon.front.description as string | undefined,
       lede: colophon.front.lede as string | undefined,
@@ -78,6 +78,7 @@ export function build({ write = true } = {}): { pages: number; errors: string[] 
   // Plain-word redirects (CLAUDE.md > URL map).
   pages.set('things/index.html', redirectPage('/exist'));
   pages.set('relations/index.html', redirectPage('/rrelations'));
+  pages.set('colophon/index.html', redirectPage(`/${COLOPHON_PATH}`));
 
   // Internal links must point at a page this build makes, or a static file.
   const staticExists = (p: string) => existsSync(join(ROOT, p)) || existsSync(join(CONTENT, p));

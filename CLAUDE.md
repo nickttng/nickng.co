@@ -14,10 +14,10 @@ A personal site built from small, self-contained entries (**things**) connected 
 | `/exist` | All things. Filters (All, Notes, Work, Ideas) appear once there is more than one kind | Things |
 | `/exist/[id]` | One thing | — |
 | `/rrelations` | Relations: a legend of verbs, with connections as examples | Relations |
-| `/colophon` | How the site is made | Footer: Colophon |
+| `/lophon` | Colophon: how the site is made | Footer: Colophon |
 
 - The puns live **only in URLs**. Nav labels stay plain.
-- Plain-word redirects: `/things` goes to `/exist`, and `/relations` goes to `/rrelations`.
+- Plain-word redirects: `/things` goes to `/exist`, `/relations` goes to `/rrelations`, and `/colophon` goes to `/lophon`.
 - Not decided: `/cv`, `/with` (contact and how to work together).
 
 ## Data model
@@ -88,7 +88,8 @@ Only the two blocking reviewers can stop a change; the others propose and Nick d
 
 ## Design
 
-- Ground `#F4F5F2`, ink `#15191C`, muted text `#5C6670`, mono labels `#4A5560`, rules `#D5D9D6`, link underline `#9AA3A0`, accent `#1D5C7A`.
+- Ground `#F4F5F2`, ink `#15191C`, muted text `#5C6670`, mono labels `#4A5560`, rules `#D5D9D6`, link underline `#9AA3A0`, accent `#1D5C7A`, stage marks `#2A8A63` (a green between the NN palette's cyan and yellow, darkened to 3.9:1).
+- Stage marks: a circle before each note title in lists that fills as the note settles (outline seedling, half budding, solid evergreen).
 - Type: **Schibsted Grotesk** for body and headings, **IBM Plex Mono** for paths, dates, types and verbs. Both self-hosted in `fonts/`. H1 is 40px at weight 500.
 - Layout: page max width 1200px; running text keeps a reading measure of about 36–38rem. Hairline row lists, no cards, no emoji.
 - Dates show as `2026.11.01` in the UI and as ISO in the data.

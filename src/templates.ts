@@ -1,9 +1,12 @@
 // Page templates. Plain functions that return HTML strings: no framework.
 
 import type { Note, Edge } from './content.ts';
-import { THING_VERBS, NOTE_VERBS, ALL_VERBS, findVerb, type VerbDef } from './vocabulary.ts';
+import { THING_VERBS, NOTE_VERBS, ALL_VERBS, findVerb, type VerbDef, type Stage } from './vocabulary.ts';
 
 const ORIGIN = 'https://nickng.co';
+
+/** Path of the colophon page (the pun lives only in the URL). */
+export const COLOPHON_PATH = 'lophon';
 
 export function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -67,18 +70,31 @@ ${crumb(o.path)}
 ${o.main}
       </main>
 
-      <footer class="foot"><a href="/colophon"${o.footerCurrent ? ' aria-current="page"' : ''}>Colophon</a></footer>
+      <footer class="foot"><a href="/${COLOPHON_PATH}"${o.footerCurrent ? ' aria-current="page"' : ''}>Colophon</a></footer>
     </div>${o.tail ? '\n' + o.tail : ''}
   </body>
 </html>
 `;
 }
 
+// Stage marks: a circle that fills as a note settles. Outline for seedling,
+// half for budding, solid for evergreen. Named for screen readers and hover.
+const RING = '<circle cx="5" cy="5" r="4" fill="none" stroke="currentColor" stroke-width="1.25"/>';
+const STAGE_MARK: Record<Stage, string> = {
+  seedling: RING,
+  budding: RING + '<path d="M5 1a4 4 0 0 0 0 8z" fill="currentColor"/>',
+  evergreen: '<circle cx="5" cy="5" r="4.6" fill="currentColor"/>',
+};
+
+function stageMark(stage: Stage): string {
+  return `<svg class="stage" viewBox="0 0 10 10" width="10" height="10" role="img" aria-label="${stage}"><title>${stage}</title>${STAGE_MARK[stage]}</svg>`;
+}
+
 function noteRow(n: Note, indent: string, group = false): string {
-  return `${indent}<li${group ? ' data-group="notes"' : ''}>
+  return `${indent}<li class="note-row"${group ? ' data-group="notes"' : ''}>
 ${indent}  <time class="row-meta" datetime="${n.date}">${dotted(n.date)}</time>
 ${indent}  <span class="row-meta">${esc(n.type)}</span>
-${indent}  <a href="/exist/${n.id}">${esc(n.title)}</a>
+${indent}  <span class="row-title">${n.stage ? stageMark(n.stage) : ''}<a href="/exist/${n.id}">${esc(n.title)}</a></span>
 ${indent}</li>`;
 }
 
@@ -145,10 +161,10 @@ export function thingsPage(notes: Note[]): string {
   return layout({
     path: 'exist',
     title: 'Things · Nick Ng',
-    description: 'Notes, work and ideas by Nick Ng. Each one stands on its own.',
+    description: 'Notes by Nick Ng, which may grow and lead to others.',
     nav: 'things',
     main: `        <h1>Things</h1>
-        <p class="lede">Notes, work and ideas. Each one stands on its own.</p>
+        <p class="lede">Notes, which may grow and lead to others.</p>
 
         <div class="filters" role="group" aria-label="Filter things" hidden>
           <button type="button" data-filter="all" aria-pressed="true">All</button>
@@ -247,7 +263,7 @@ export function plainPage(p: { path: string; title: string; description?: string
     title: `${p.title} · Nick Ng`,
     description: p.description,
     mainClass: p.mainClass,
-    footerCurrent: p.path === 'colophon',
+    footerCurrent: p.path === COLOPHON_PATH,
     main: `        <h1>${esc(p.title)}</h1>
 ${p.lede ? `        <p class="lede">${esc(p.lede)}</p>\n` : ''}
 ${p.html.trim()}`,
