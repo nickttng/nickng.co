@@ -48,6 +48,16 @@ const NOTE_KEYS = new Set(['schema', 'id', 'title', 'type', 'stage', 'date', 'su
 const ID_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
+/** Run a YAML parse; if it throws, record the error against `file` and return undefined. */
+function parseOrReport<T>(file: string, errors: string[], parse: () => T): T | undefined {
+  try {
+    return parse();
+  } catch (e) {
+    errors.push(`${file}: invalid YAML: ${(e instanceof Error ? e.message : String(e)).split('\n')[0].replace(/:$/, '')}`);
+    return undefined;
+  }
+}
+
 export function splitFrontMatter(text: string): { front: Record<string, unknown>; body: string } | null {
   const m = /^---\n([\s\S]*?)\n---\n?/.exec(text);
   if (!m) return null;
@@ -62,7 +72,9 @@ export function loadContent(root: string): Content {
 
   for (const name of readdirSync(notesDir).filter((n) => n.endsWith('.md')).sort()) {
     const file = join('content/notes', name);
-    const parsed = splitFrontMatter(readFileSync(join(notesDir, name), 'utf8'));
+    const text = readFileSync(join(notesDir, name), 'utf8');
+    const parsed = parseOrReport(file, errors, () => splitFrontMatter(text));
+    if (parsed === undefined) continue;
     if (!parsed) { errors.push(`${file}: missing front matter`); continue; }
     const f = parsed.front;
     const bad = (msg: string) => errors.push(`${file}: ${msg}`);
@@ -105,8 +117,10 @@ export function loadContent(root: string): Content {
   const relFile = 'content/relations.yaml';
   const relPath = join(root, 'relations.yaml');
   if (existsSync(relPath)) {
-    const raw = parseYaml(readFileSync(relPath, 'utf8')) as unknown;
-    if (!Array.isArray(raw)) errors.push(`${relFile}: must be a list of connections`);
+    const text = readFileSync(relPath, 'utf8');
+    const failed = errors.length;
+    const raw = parseOrReport(relFile, errors, () => parseYaml(text) as unknown);
+    if (errors.length === failed && !Array.isArray(raw)) errors.push(`${relFile}: must be a list of connections`);
     const seen = new Set<string>();
     for (const [i, e] of (Array.isArray(raw) ? raw : []).entries()) {
       const where = `${relFile} #${i + 1}`;
@@ -128,7 +142,9 @@ export function loadContent(root: string): Content {
   if (existsSync(pagesDir)) {
     for (const name of readdirSync(pagesDir).filter((n) => n.endsWith('.md'))) {
       const file = join('content/pages', name);
-      const parsed = splitFrontMatter(readFileSync(join(pagesDir, name), 'utf8'));
+      const text = readFileSync(join(pagesDir, name), 'utf8');
+      const parsed = parseOrReport(file, errors, () => splitFrontMatter(text));
+      if (parsed === undefined) continue;
       if (!parsed) { errors.push(`${file}: missing front matter`); continue; }
       pages[basename(name, '.md')] = { ...parsed, file };
     }
