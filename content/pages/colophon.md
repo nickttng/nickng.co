@@ -10,7 +10,7 @@ Everything starts as plain-text notes I keep for myself. A few of them become th
 
 ## Dates and stages
 
-A note’s date is when the idea first showed up in my notes, not when the page was written. Some notes also show a stage:
+A note’s date is when the idea first showed up in my notes, not when the page was written. Each notes also show a stage:
 
 - **Seedling:** a rough first thought, recently planted. Expect gaps.
 - **Budding:** taking shape, revised a few times, and still growing.

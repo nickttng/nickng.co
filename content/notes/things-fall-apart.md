@@ -10,7 +10,7 @@ description: "Most failure isn't breakage. It's neglect. Maintenance starts with
 
 Maintenance starts with noticing. You can’t repair what you haven’t seen. Like how a community fridge stays healthy because someone sees the spoiled produce and throws it out.
 
-Open loops pave the way to innovation and (re)invention. Open them faster than you close them and everything risks stale. Closing a loop is maintenance, and a retrospective to better, new open loops.
+Open loops pave the way to innovation and (re)invention. Open them faster than you close them and everything risks staleness. Closing a loop is maintenance, and a retrospective to better, new open loops.
 
 Design for noticing:
 
