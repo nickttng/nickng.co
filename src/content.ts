@@ -67,6 +67,7 @@ export function loadContent(root: string): Content {
     const f = parsed.front;
     const bad = (msg: string) => errors.push(`${file}: ${msg}`);
 
+    const errorCount = errors.length;
     for (const key of Object.keys(f)) if (!NOTE_KEYS.has(key)) bad(`unknown field "${key}"`);
     if (f.schema !== SCHEMA_VERSION) bad(`schema must be ${SCHEMA_VERSION}`);
     const id = String(f.id ?? '');
@@ -77,6 +78,7 @@ export function loadContent(root: string): Content {
     if (f.stage !== undefined && !STAGES.includes(f.stage as Stage)) bad(`stage "${f.stage}" is not one of: ${STAGES.join(', ')}`);
     if (typeof f.date !== 'string' || !DATE_PATTERN.test(f.date)) bad('date must be YYYY-MM-DD');
     if (f.aliases !== undefined && !Array.isArray(f.aliases)) bad('aliases must be a list');
+    if (errors.length > errorCount) continue;
 
     notes.push({
       id,
