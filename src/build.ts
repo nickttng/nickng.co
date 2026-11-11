@@ -28,7 +28,15 @@ export function build({ write = true } = {}): { pages: number; errors: string[] 
 
   // Wikilinks resolve by id, title or alias (case-insensitive).
   const lookup = new Map<string, Note>();
-  for (const n of notes) for (const key of [n.id, n.title, ...n.aliases]) lookup.set(key.toLowerCase(), n);
+  for (const n of notes) for (const key of [n.id, n.title, ...n.aliases]) {
+    const normalized = key.toLowerCase();
+    const existing = lookup.get(normalized);
+    if (existing && existing.id !== n.id) {
+      errors.push(`${n.file}: wikilink name "${key}" also belongs to ${existing.file}`);
+    } else {
+      lookup.set(normalized, n);
+    }
+  }
   const titles = new Map(notes.map((n) => [n.id, n.title]));
   // Invalid connections are already reported; keep them out of rendering so
   // the build can finish checking and list every problem at once.
