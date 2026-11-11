@@ -38,7 +38,13 @@ for (const dir of WATCH) {
 }
 
 createServer((req, res) => {
-  const url = decodeURIComponent((req.url ?? '/').split('?')[0]);
+  let url: string;
+  try {
+    url = decodeURIComponent((req.url ?? '/').split('?')[0]);
+  } catch {
+    res.writeHead(400, { 'Content-Type': 'text/plain' }).end('Bad request');
+    return;
+  }
   let path = normalize(join(OUT, url));
   // Only files inside _site/ (the separator stops look-alikes such as _site-old/).
   if (path !== OUT && !path.startsWith(OUT + sep)) { res.writeHead(403).end(); return; }
