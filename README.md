@@ -1,47 +1,48 @@
-# Roadmap
+# nickng.co
 
-nickng.co is evolving to a new kind of portfolio. My aim is to build from small, self-contained entries. Each one is named exactly, described plainly, and linked to the others it depends on, informs, or grows from. The aim is a portfolio I (and you) can explore. 
+Nick Ng's personal site. Small, self-contained entries (things) connected by named relations, written in Markdown and built into plain HTML by a small TypeScript build.
 
-This roadmap is deliberately light for now, and plans change as the site changes.
+## Write
 
-## Now: foundations
+| What | Where |
+|---|---|
+| A note | `content/notes/<id>.md` |
+| A connection | `content/relations.yaml` |
+| Photos | `content/images/` (WebP) |
+| Home bio, Colophon | `content/pages/` |
 
-- A sparse, readable site
-- A first set of entries: work, ideas, and short notes
-- Plain navigation, with each page showing what it connects to
+A note starts with front matter:
 
-## Next: growing the collection
-
-- New entries on a steady rhythm
-- A small, consistent set of words for how entries relate to each other
-- Pages that show their connections, so one entry leads naturally to the next
-
-## Later: easier to explore and reuse
-
--  Browsing by connection, not only by date
--  Plain-text and feed versions of pages, so other tools can read the site
--  Clear terms for how the site's content can be cited and reused
-
-## Exploring
-
-- Ways to ask questions of what is already published on the site. No commitments yet.
-
+```yaml
 ---
+schema: 1
+id: the-iliad                 # permanent; must match the file name
+title: "The Iliad"
+type: epic                    # pattern · novel · reading plan · epic · field notes
+stage: budding                # optional: seedling · budding · evergreen
+date: 2026-01-08              # when the idea first appeared
+summary: "Shown under the title and used as the page description."
+---
+```
 
-The site itself will explore a working example of the principles below.
+In the body: `[[Title]]` links to another note, `![alt](images/x.webp)` adds a photo (an *italic line* right after it becomes the caption), several photos in one paragraph become a gallery, and `[^1]` adds a footnote.
 
-## Principles: interface and context design
+Types, stages and verbs live in `src/vocabulary.ts`.
 
-### Interface
+## Build
 
-- Every entry stands on its own, and makes sense without the rest of the site.
-- Every entry has one permanent name. If a name changes, the old one still leads there.
-- Every entry says what kind of thing it is, so readers know what to expect.
-- Names match what they describe, and navigation uses plain words.
+```sh
+npm install
+npm run dev        # http://localhost:4000, rebuilds on save
+npm run build      # writes _site/
+npm run check      # checks content and links without writing
+npm run typecheck
+```
 
-### Context
+The build fails, and writes nothing, if a note's front matter is wrong, a connection uses an unknown id or verb, a wikilink or internal link is broken, or an image is missing.
 
-- Context travels with the content. Each page says where it sits and what it connects to.
-- Connections are named, not just linked, so the path between entries carries meaning.
-- People, tools and systems sit side by side, and none is treated as the center.
-- Entries are unfinished by design, and they get revised in the open.
+## Publish
+
+Pushing to `main` builds and deploys to GitHub Pages (`.github/workflows/deploy.yml`). Pages source must be set to **GitHub Actions** in the repo settings.
+
+See [ROADMAP.md](ROADMAP.md) for where the site is going.

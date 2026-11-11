@@ -1,38 +1,490 @@
-/* typography--*/
+/* nickng.co — iteration 1
+   Tokens from the prototype. See CLAUDE.md > Design. */
+
+/* Fonts, served from this site (SIL OFL 1.1, see fonts/OFL-*.txt).
+   Schibsted Grotesk is variable: one file covers every weight. */
 @font-face {
-  font-family: "iA Writer Duospace";
-  font-weight: normal;
+  font-family: "Schibsted Grotesk";
   font-style: normal;
-  src: url("../fonts/iAWriterDuospace-Regular.woff2") format("woff2"),
-    url("../fonts/iAWriterDuospace-Regular.woff") format("woff");
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("/fonts/schibsted-grotesk-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 @font-face {
-  font-family: "iA Writer Duospace";
-  font-weight: normal;
-  font-style: italic;
-  src: url("../fonts/iAWriterDuospace-Italic.woff2") format("woff2"),
-    url("../fonts/iAWriterDuospace-Italic.woff") format("woff");
-}
-
-@font-face {
-  font-family: "iA Writer Duospace";
-  font-weight: bold;
+  font-family: "Schibsted Grotesk";
   font-style: normal;
-  src: url("../fonts/iAWriterDuospace-Bold.woff2") format("woff2"),
-    url("../fonts/iAWriterDuospace-Bold.woff") format("woff");
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("/fonts/schibsted-grotesk-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
-
 @font-face {
-  font-family: "iA Writer Duospace";
-  font-weight: bold;
+  font-family: "Schibsted Grotesk";
   font-style: italic;
-  src: url("../fonts/iAWriterDuospace-BoldItalic.woff2") format("woff2"),
-    url("../fonts/iAWriterDuospace-BoldItalic.woff") format("woff");
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("/fonts/schibsted-grotesk-italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/ibm-plex-mono-400-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-body , p { font-family: 'iA Writer Duospace', 'Helvetica', sans-serif; }
+:root {
+  color-scheme: light;
 
-h1, h2, h3 {font-family: 'iA Writer Duospace', Helvetica, sans-serif;}
+  --ground: #F4F5F2;
+  --ink: #15191C;
+  --muted: #5C6670;
+  --label: #4A5560;
+  --rule: #D5D9D6;
+  --underline: #9AA3A0;
+  --accent: #1D5C7A;
+  --stage: #2A8A63;     /* green between the NN mark's cyan and yellow, darkened to 3.9:1 */
 
-figcaption { font-style: oblique; font-size:0.75em; line-height:1.5em; padding:0.5em 0; }
+  --sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", Menlo, Consolas, monospace;
+
+  --max: 1200px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+[hidden] { display: none !important; }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+.page {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 1.5rem 16px 3rem;
+}
+
+@media (min-width: 640px) {
+  .page { padding: 2.5rem 32px 4rem; }
+}
+
+.mono, .row-meta, .verb, .filters button {
+  font-family: var(--mono);
+}
+
+/* nav */
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  margin-top: 0.5rem;
+}
+
+.nav ul { display: flex; gap: 1.5rem; list-style: none; margin: 0; padding: 0; }
+
+.nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* home mark: soft black, lights up like a night street on hover */
+/* address crumb: [mark] nickng.co/exist/slug */
+.crumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-width: 0;
+  font-family: var(--mono);
+  font-size: 0.9375rem;
+}
+
+.nav .home-mark { gap: 10px; text-decoration: none; }
+.domain { color: var(--ink); }
+
+.nav .seg {
+  color: var(--label);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.nav a.seg:hover, .nav .home-mark:hover .domain { color: var(--accent); }
+.nav .seg[aria-current="page"] { color: var(--ink); }
+
+.mark {
+  display: block;
+  width: 30px;
+  height: 31.5px;
+  background: var(--ink);
+  background-size: 250% 100%;
+  -webkit-mask: url("/img/icon-nn.svg") no-repeat center / contain;
+          mask: url("/img/icon-nn.svg") no-repeat center / contain;
+}
+
+.home-mark:hover .mark,
+.home-mark:focus-visible .mark {
+  background-image: linear-gradient(90deg,
+    #7C7FD6 0%,   /* violet */
+    #FF7AB0 18%,  /* hot pink */
+    #F2A33A 34%,  /* amber */
+    #E8C34A 48%,  /* gold */
+    #5CC8D8 60%,  /* cyan */
+    #F08497 76%,  /* pink */
+    #F26A4B 90%,  /* coral */
+    #7C7FD6 100%);
+  animation: mark-drift 2.4s linear infinite;
+}
+
+@keyframes mark-drift {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-mark:hover .mark,
+  .home-mark:focus-visible .mark { animation: none; background-position: 30% 50%; }
+}
+
+.nav .home-mark[aria-current="page"] { text-decoration: none; }
+
+/* inline version (js/mark.js): each pixel takes its own colour */
+.mark.is-live,
+.home-mark:hover .mark.is-live,
+.home-mark:focus-visible .mark.is-live {
+  background: none;
+  animation: none;
+  -webkit-mask: none;
+          mask: none;
+}
+.mark.is-live svg { display: block; width: 100%; height: 100%; }
+.mark.is-live rect { fill: var(--ink); }
+
+.nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+
+/* type */
+h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 3rem 0 1rem;
+  max-width: 24ch;
+}
+
+@media (min-width: 640px) {
+  h1 { font-size: 40px; margin-top: 4.5rem; }
+}
+
+h2 {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--label);
+  margin: 3.5rem 0 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+p { margin: 0 0 1rem; max-width: 38rem; }
+
+/* home hero: headline + abstract-art-30 sketch (js/sketch.js) */
+/* below 960px the sketch sits above the headline; from 960px, beside it */
+.hero { display: flex; flex-direction: column; }
+.sketch { order: -1; margin: 2.25rem 0 0; width: min(100%, 22rem); }
+.sketch canvas { display: block; width: 100%; aspect-ratio: 1 / 1; }
+
+/* space around the hero is tighter than the page default */
+.hero h1 { margin-top: 1.5rem; }                           /* below the sketch */
+.hero + .bio-grid > .bio:first-child h2 { margin-top: 2.625rem; }   /* default 3.5rem */
+@media (min-width: 640px) {
+  .sketch { margin-top: 3.375rem; width: min(100%, 26rem); }
+  .hero h1 { margin-top: 2.25rem; }
+}
+
+@media (min-width: 960px) {
+  .hero {
+    display: grid;
+    /* sketch sits right after the headline, not pushed to the far edge */
+    grid-template-columns: fit-content(36rem) minmax(0, 26rem);
+    justify-content: start;
+    /* 3rem, plus 10% of the sketch's 26rem width */
+    column-gap: calc(3rem + 26rem * 0.10);
+    align-items: center;
+    margin: 3.375rem 0 2.25rem;                            /* was 4.5rem 0 3rem */
+  }
+  .hero h1 { margin: 0; }
+  .hero + .bio-grid h2 { margin-top: 2.625rem; }           /* both columns' labels */
+  .sketch { order: 0; margin: 0; width: auto; }
+}
+
+/* home bio sections */
+.bio p { margin-top: 1rem; font-size: 1.0625rem; }
+.bio-grid + h2 { margin-top: 3.5rem; }
+
+/* side by side from 960px; each column is then ~430px or wider */
+@media (min-width: 960px) {
+  .bio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 3rem;
+  }
+}
+
+.lede { color: var(--muted); }
+
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--underline);
+  text-underline-offset: 3px;
+}
+
+a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* hairline row lists */
+.rows { list-style: none; margin: 0; padding: 0; }
+
+.rows > li {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.125rem 1.5rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 640px) {
+  .rows > li { grid-template-columns: 6.5rem 8rem 1fr; align-items: baseline; }
+}
+
+.row-meta { font-size: 0.8125rem; color: var(--label); }
+.note-row .row-title > a { display: inline-block; min-height: 44px; }
+
+/* stage mark before a note title: outline, half, solid */
+.stage {
+  display: inline-block;
+  margin-right: 0.5rem;
+  vertical-align: 0.05em;
+  color: var(--stage);
+}
+
+/* phones: rows stack, so the mark hangs in its own column and the date,
+   type and title still share one left edge */
+@media (max-width: 639.98px) {
+  .rows > .note-row { padding-left: 1.125rem; }
+  .note-row .row-title { position: relative; }
+  .note-row .stage { position: absolute; left: -1.125rem; top: 0.45em; margin: 0; }
+}
+
+/* filters */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.5rem 0 0;
+}
+
+.filters button {
+  min-height: 44px;
+  padding: 0 1rem;
+  font-size: 0.8125rem;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.filters button[aria-pressed="true"] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--ground);
+}
+
+.verb { font-size: 0.9375rem; white-space: nowrap; }
+
+/* relations page: a legend of verbs, with connections as examples */
+.rel-stats { margin: 0 0 1rem; }
+.legend { list-style: none; margin: 0; padding: 0; }
+.legend > li {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.25rem 2rem;
+  padding: 1rem 0 1.125rem;
+  border-bottom: 1px solid var(--rule);
+}
+@media (min-width: 640px) {
+  .legend > li { grid-template-columns: 11rem minmax(0, 38rem); }
+}
+.legend-verb .verb { display: block; font-size: 0.9375rem; color: var(--ink); }
+.legend-verb .row-meta { display: block; }
+.legend-means { margin: 0; }
+.legend-owes, .legend-none {
+  margin: 0.25rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--label);
+}
+.legend-examples { list-style: none; margin: 0.25rem 0 0; padding: 0; }
+/* example links are 44px touch targets (CLAUDE.md) */
+.legend-examples li { display: flex; flex-wrap: wrap; align-items: center; margin: 0; }
+.legend-examples a { min-height: 44px; }
+.legend-arrow { margin: 0 0.5rem; color: var(--label); }
+/* unused verbs: one quiet line each */
+.legend-compact { list-style: none; margin: 0; padding: 0.5rem 0 0; }
+.legend-compact li {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 2rem;
+  padding: 0.375rem 0;
+  color: var(--muted);
+}
+@media (min-width: 640px) {
+  .legend-compact li { grid-template-columns: 11rem minmax(0, 38rem); }
+}
+.legend-compact .verb { font-size: 0.9375rem; color: var(--muted); }
+.legend-compact .row-meta { margin-left: 0.5rem; }
+/* tracks at the foot of a note */
+.tracks { margin-top: 3rem; }
+.note .tracks ul { max-width: none; margin: 0; padding: 0; font-size: inherit; line-height: inherit; }
+.note .tracks li { margin: 0; }
+.tracks .rows > li > a { min-height: 44px; }
+.tracks .rows > li { grid-template-columns: 1fr; }
+@media (min-width: 640px) {
+  .tracks .rows > li { grid-template-columns: 9rem 1fr; }
+}
+
+/* note page */
+.note-meta { margin: 3rem 0 0; }
+.note h1 { margin-top: 0.75rem; margin-bottom: 2rem; }
+@media (min-width: 640px) { .note-meta { margin-top: 4.5rem; } }
+.note p { font-size: 1.125rem; line-height: 1.65; max-width: 36rem; }
+.note .note-meta { font-size: 0.8125rem; }
+.note ul {
+  max-width: 36rem;
+  margin: -0.5rem 0 1.25rem;
+  padding-left: 1.25rem;
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+.note li { margin-bottom: 0.25rem; }
+.note li::marker { color: var(--label); }
+
+/* long-form notes (imported from nickng.xyz) */
+.note.long .lede { font-size: 1.125rem; margin: -1rem 0 2.5rem; }
+/* text keeps a reading measure; galleries use the full content width */
+.prose > :not(.gallery) { max-width: 36rem; }
+.prose h2 {
+  font-family: var(--sans);
+  font-size: 1.375rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 2.75rem 0 0.75rem;
+  padding: 0;
+  border: 0;
+}
+.prose h3 { font-size: 1.125rem; font-weight: 500; margin: 2rem 0 0.5rem; }
+.prose ul, .prose ol { margin: 0 0 1.25rem; }
+.prose blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--rule);
+  color: var(--muted);
+}
+.prose blockquote p { font-size: 1.0625rem; }
+.prose img { display: block; max-width: 100%; height: auto; }
+.prose figure { margin: 2rem 0; }
+.prose figcaption { margin-top: 0.5rem; font-size: 0.8125rem; line-height: 1.5; color: var(--muted); }
+.prose hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+
+/* Traces: one photo per row on phones, so each is seen at full width.
+   From 640px, justified rows: every photo keeps its own shape (no cropping);
+   each grows in proportion to its width-to-height ratio, so photos in a
+   row share one height and the row fills the width. Order is kept. */
+.prose .gallery { display: grid; gap: 8px; margin: 1rem 0 2rem; }
+.prose .gallery img { width: 100%; height: auto; }
+
+@media (min-width: 640px) {
+  .prose .gallery { --row: 10rem; display: flex; flex-wrap: wrap; }   /* target row height */
+  .prose .gallery img { width: auto; min-width: 0; }
+  .prose .gallery .r169 { flex: 1.778 1 calc(var(--row) * 1.778); aspect-ratio: 16 / 9; }
+  .prose .gallery .r43  { flex: 1.333 1 calc(var(--row) * 1.333); aspect-ratio: 4 / 3; }
+  .prose .gallery .r34  { flex: 0.75 1 calc(var(--row) * 0.75); aspect-ratio: 3 / 4; }
+  /* the last row keeps its natural size instead of stretching to fill */
+  .prose .gallery::after { content: ""; flex: 1000 1 0; }
+}
+@media (min-width: 1100px) { .prose .gallery { --row: 12rem; } }   /* ~3 a row */
+
+.prose .table-scroll { overflow-x: auto; margin: 1.5rem 0; }
+.prose table { border-collapse: collapse; font-size: 0.9375rem; min-width: 32rem; }
+.prose th, .prose td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.5rem 0.75rem 0.5rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.prose th { font-family: var(--mono); font-size: 0.8125rem; font-weight: 400; color: var(--label); }
+
+.prose .footnotes {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.prose .footnotes p, .prose .footnotes li { font-size: 0.9375rem; }
+.prose sup a { text-decoration: none; font-family: var(--mono); font-size: 0.75rem; }
+.prose .footnotes-sep { display: none; }   /* .footnotes already draws the rule */
+.prose .footnotes ol { padding-left: 1.25rem; }
+
+/* colophon */
+.colophon h2 + p { margin-top: 0.75rem; }
+.colophon ul { max-width: 38rem; margin: 0 0 1rem; padding-left: 1.25rem; }
+.colophon li { margin-bottom: 0.25rem; }
+.colophon li::marker { color: var(--label); }
+.colophon code { font-family: var(--mono); font-size: 0.9375rem; }
+
+/* footer */
+.foot {
+  margin-top: 5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.foot a { display: inline-flex; align-items: center; min-height: 44px; }   /* 44px target */
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}

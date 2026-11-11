@@ -1,0 +1,31 @@
+# Every connection between things, stored once.
+# Inverses ("has part", "is informed by", ...) are generated, never written here.
+# Verbs must be registered in src/vocabulary.ts; ids must match a note in content/notes.
+
+- from: wear-is-usage-data
+  verb: argues for
+  to: things-fall-apart
+
+- from: passive-design-active-users
+  verb: argues for
+  to: things-fall-apart
+
+- from: the-trumpet-major
+  verb: part of
+  to: wessex-as-a-world
+
+- from: under-the-greenwood-tree
+  verb: part of
+  to: wessex-as-a-world
+
+- from: the-iliad
+  verb: informs
+  to: the-trumpet-major
+
+- from: under-the-greenwood-tree
+  verb: informs
+  to: the-trumpet-major
+
+- from: under-the-greenwood-tree
+  verb: informs
+  to: wear-is-usage-data
