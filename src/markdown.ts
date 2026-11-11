@@ -104,8 +104,13 @@ export function renderMarkdown(source: string, env: RenderEnv): string {
   html = html.replace(/<img src="(?:\.\/)?images\/([^"]+)" alt="([^"]*)">/g, (_m, name: string, alt: string) => {
     const path = join(env.imagesDir, name);
     if (!existsSync(path)) { env.errors.push(`${env.file}: missing image images/${name}`); return `<img src="/images/${name}" alt="${alt}">`; }
-    const { w, h } = webpSize(path);
-    return `<img data-shape="${shape(w, h)}" src="/images/${name}" alt="${alt}" width="${w}" height="${h}" loading="lazy" decoding="async">`;
+    try {
+      const { w, h } = webpSize(path);
+      return `<img data-shape="${shape(w, h)}" src="/images/${name}" alt="${alt}" width="${w}" height="${h}" loading="lazy" decoding="async">`;
+    } catch (error) {
+      env.errors.push(`${env.file}: invalid image images/${name}: ${error instanceof Error ? error.message : String(error)}`);
+      return '';
+    }
   });
   if (/<img (?![^>]*data-shape)/.test(html)) env.errors.push(`${env.file}: images must live in content/images (use images/name.webp)`);
 
