@@ -89,7 +89,12 @@ export function build({ write = true } = {}): { pages: number; errors: string[] 
   pages.set('colophon/index.html', redirectPage(`/${COLOPHON_PATH}`));
 
   // Internal links must point at a page this build makes, or a static file.
-  const staticExists = (p: string) => existsSync(join(ROOT, p)) || existsSync(join(CONTENT, p));
+  const staticExists = (p: string) => {
+    if (p.split('/').includes('..')) return false;
+    const inStatic = STATIC.some((item) => p === item || p.startsWith(`${item}/`));
+    return (inStatic && existsSync(join(ROOT, p))) ||
+      (p.startsWith('images/') && existsSync(join(CONTENT, p)));
+  };
   for (const [path, html] of pages) {
     for (const [, href] of html.matchAll(/(?:href|src)="(\/[^"#?]*)/g)) {
       const clean = href.replace(/^\//, '').replace(/\/$/, '');
