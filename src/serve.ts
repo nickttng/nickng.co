@@ -11,6 +11,7 @@ import { spawnSync } from 'node:child_process';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, '_site');
 const PORT = Number(process.env.PORT ?? 4000);
+const HOST = process.env.HOST ?? '127.0.0.1';   // set HOST=0.0.0.0 to preview from a phone on the same network
 const WATCH = ['content', 'src', 'css', 'js', 'fonts', 'img'];
 
 const TYPES: Record<string, string> = {
@@ -55,4 +56,4 @@ createServer((req, res) => {
   if (!existsSync(path)) { res.writeHead(404, { 'Content-Type': 'text/plain' }).end('Not found'); return; }
   res.writeHead(200, { 'Content-Type': TYPES[extname(path)] ?? 'application/octet-stream', 'Cache-Control': 'no-store' });
   res.end(readFileSync(path));
-}).listen(PORT, '127.0.0.1', () => console.log(`Serving _site/ at http://localhost:${PORT}  (Ctrl+C to stop)\n`));
+}).listen(PORT, HOST, () => console.log(`Serving _site/ at http://${HOST}:${PORT}  (Ctrl+C to stop)\n`));
